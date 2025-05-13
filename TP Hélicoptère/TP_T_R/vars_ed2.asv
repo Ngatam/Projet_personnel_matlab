@@ -1,0 +1,94 @@
+%Paramètres
+Ke = 0.34;
+Kt = 1.26;
+Kl = 4.854;
+tau = 23;
+ksi = 0.082
+wo = 27.06 
+
+Q = diag([2000 19 1 80 40])
+R = diag([3 0.2])
+
+
+%Q = diag([2000 19 1 0.1 0.1])
+%R = diag([3 0.1])
+
+m = 2
+p = 2
+n = 3
+
+%Matrices
+A = [0 1 0 0 0; 
+    -wo*wo -2*ksi*wo 0 0 0;
+    0 0 0 1 0;
+    0 0 0 0 0;
+    0 0 Kl/tau 0 -1/tau];
+B = [0 0;
+    -Ke*wo^2 Ke*wo^2;
+    0 0
+    ]
+C = [ 1 0 0;
+    0 0 1]
+
+Aa = [A zeros(n,2);
+    C  zeros(2,2)]
+Ba= [B;
+    zeros(2,2)]
+AaMal= Aa + al_c*eye(n+p)
+K = lqr(AaMal,Ba,Q,R)
+Kp = K(:,1:n)
+Ki = K(:,n+1:n+p)
+
+
+sim('rebi_multivariable')
+
+
+
+subplot(2, 2 ,1)
+plot(t, u1)
+xlabel('Temps (s)')
+ylabel('u1')
+subplot(2, 2 ,2)
+plot(t, u2)
+xlabel('Temps (s)')
+ylabel('u2')
+subplot(2, 2 ,3)
+plot(t, y1)
+xlabel('Temps (s)')
+ylabel('y1')
+subplot(2, 2 ,4)
+plot(t, y2)
+xlabel('Temps (s)')
+ylabel('y2')
+
+s=tf('s')
+L1= ss(A,B,Ki*C,0)
+L1=L1/s
+L2=ss(A,B,Kp,0)
+L = L1+L2
+
+
+
+L1bis=ss(A,(B*Ki)/s,-C,0)
+L2
+
+Lo=  1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

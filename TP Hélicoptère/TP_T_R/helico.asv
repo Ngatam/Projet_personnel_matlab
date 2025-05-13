@@ -1,0 +1,60 @@
+%------------------------ Test Elevation ----------------------------------
+load essais_ng;
+Figure_1 = figure();
+t  = essais_ng.X.Data;
+u = essais_ng.Y(1).Data;
+epsi = essais_ng.Y(2).Data;
+subplot(211);
+plot(t,u);
+title('Consigne');
+subplot(212);
+plot(t,epsi);
+title('Elevation');
+
+
+%------------------------ Test Tangage ------------------------------------
+load tangage_ng;
+t  = tangage_ng.X.Data;
+theta = tangage_ng.Y.Data;
+% subplot (111);
+% plot(t,theta);
+% title('Tangage');
+
+
+%------------------------ Test Lacet --------------------------------------
+load lacet_ng;
+t  = lacet_ng.X.Data;
+lambda = lacet_ng.Y(1).Data;
+tangage = lacet_ng.Y(2).Data;
+% subplot(211)
+% plot(t, lambda);
+% title('Lacet');
+% subplot(212)
+% plot(t,tangage)
+% title('Tangage')
+
+
+%------------------------ Calculs Elevation -------------------------------
+
+
+
+%------------------------ Calculs Tangage ---------------------------------
+a = -0.1;
+t0 = 0.22;
+y0 = 1.74;
+t1 = 0.5;
+y1 = 1.63;
+t2 = 1.2;
+y2 = 0.49;
+
+ab = y0-a;
+t1b = t1-t0;
+y1b = y0-y1;
+t2b = t2-t0;
+y2b = y0-y2;
+
+K_tangage = (2*( sqrt(y1b) - sqrt(y2b) )^2) / (a*(t2b - t1b)^2)
+
+
+%------------------------ Calculs Lacet -----------------------------------
+
